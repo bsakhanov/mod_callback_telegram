@@ -1,0 +1,20 @@
+<updates>
+	<update>
+		<name>Telegram Callback</name>
+		<element>mod_telegram_callback</element>
+		<type>module</type>
+		<version>1.0.2</version>
+		<infourl title="Telegram Callback">https://github.com/AlekVolsk/mod_telegram_callback/</infourl>
+		<downloads>
+			<downloadurl type="full" format="">https://github.com/AlekVolsk/mod_telegram_callback/archive/master.zip</downloadurl>
+		</downloads>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer>Aleksey A. Morozov</maintainer>
+		<maintainerurl>https://alekvolsk.pw/</maintainerurl>
+		<section>Updates</section>
+		<targetplatform name="joomla" version="3.2" />
+		<client>site</client>
+	</update>
+</updates>

@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.2" client="site" method="upgrade">
-	<name>MOD_TELEGRAM_CALLBACK</name>
-    <author>Aleksey A. Morozov (AlekVolsk)</author>
+	
+	<name>Telegram Callback</name>
+    <author>Aleksey A. Morozov</author>
     <authorEmail>alekvolsk@yandex.ru</authorEmail>
     <authorUrl>https://alekvolsk.pw</authorUrl>
     <copyright>© 2017 Aleksey A. Morozov. All right reserved.</copyright>
     <license>GNU GPL v3 or later</license>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
     <creationDate>March 2017</creationDate>
-	<description>MOD_TELEGRAM_CALLBACK_XML_DESCRIPTION</description>
+	<description><![CDATA[<h3>Telegram Callback</h3><p>The module displays on the website a feedback form that sends messages in telegram.<br><br></p>]]></description>
 	<scriptfile>script.php</scriptfile>
+	
+	<updateservers>
+		<server type="extension" priority="1" name="Telegram Callback">https://github.com/AlekVolsk/mod_telegram_callback/blob/master/mod_telegram_callback_update.xml</server>
+	</updateservers>
+	
 	<files>
-		<filename module="mod_vsg">mod_telegram_callback.php</filename>
+		<filename module="mod_telegram_callback">mod_telegram_callback.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
 	</files>
-	<languages>
-		<language tag="en-GB">languages/en-GB.mod_telegram_callback.ini</language>
-		<language tag="en-GB">languages/en-GB.mod_telegram_callback.sys.ini</language>
-		<language tag="ru-RU">languages/ru-RU.mod_telegram_callback.ini</language>
-		<language tag="ru-RU">languages/ru-RU.mod_telegram_callback.sys.ini</language>
+	
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.mod_telegram_callback.ini</language>
+		<language tag="en-GB">en-GB.mod_telegram_callback.sys.ini</language>
+		<language tag="ru-RU">ru-RU.mod_telegram_callback.ini</language>
+		<language tag="ru-RU">ru-RU.mod_telegram_callback.sys.ini</language>
 	</languages>
+	
 	<config>
 		<fields name="params">
+			
 			<fieldset name="basic">
 				<field name="token" type="text" label="MOD_TELEGRAM_CALLBACK_PRM_TOKEN_LABEL" description="MOD_TELEGRAM_CALLBACK_PRM_TOKEN_DESC" default="" class="input-xxlarge" />
 				<field name="ci" type="text" label="MOD_TELEGRAM_CALLBACK_PRM_CI_LABEL" description="MOD_TELEGRAM_CALLBACK_PRM_CI_DESC" default="" />
@@ -52,10 +61,13 @@
 				</field>
 				<field name="tgmtitle" type="text" label="MOD_TELEGRAM_CALLBACK_PRM_TGMTITLE_LABEL" description="MOD_TELEGRAM_CALLBACK_PRM_TGMTITLE_DESC" />
 			</fieldset>
+			
 			<fieldset name="advanced">
-				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" default="_:default" />
 				<field name="moduleclass_sfx" type="textarea" rows="3" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 			</fieldset>
+			
 		</fields>
 	</config>
+	
 </extension>
