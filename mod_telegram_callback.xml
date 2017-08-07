@@ -13,7 +13,7 @@
 	<scriptfile>script.php</scriptfile>
 	
 	<updateservers>
-		<server type="extension" priority="1" name="Telegram Callback">https://github.com/AlekVolsk/mod_telegram_callback/blob/master/mod_telegram_callback_update.xml</server>
+		<server type="extension" priority="1" name="Telegram Callback">https://raw.githubusercontent.com/AlekVolsk/mod_telegram_callback/master/mod_telegram_callback_update.xml</server>
 	</updateservers>
 	
 	<files>
