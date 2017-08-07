@@ -1,33 +1,35 @@
 # «Telegram Callback» Joomla module
 
-**v1.0.1**
+**v1.0.2**
 
-Модуль обратной связи, отсылающий сообщения в телеграм, &ndash; современный сервис моментальных сообщений.
+**Joomla 3.2 or later**
 
-Сообщение с формы модуля отправляется в заранее созданного бота.
+A feedback module sending the message in the telegram, the modern service of instant messages.
 
-Бот создается с помощью другого, системного бота.
+A message from the form module goes into pre-created bot.
 
-### Описание
+The bot is created with another system of the bot.
 
-Список полей по умолчанию пуст, потому следует его заполнить, затем сохранить. Поддерживаемые типы полей: text, textarea, email, select, checkbox, radio. Каждое поле обязательно должно иметь имя (для формирования формы) и наименование (для идентификации поля в сообщении в телеграмме).
+### Description
 
-Также можно указать заголовок для сообщения в телеграме, если заголовок не указан, используется строка вида «Сообщение с сайта {url}».
+The default field list is empty, because the need to fill it, then save. Supported field types: text, textarea, email, select, checkbox, radio. Each field must have a name (for form creation) and name (the identification field in the message in the telegram).
 
-Модуль не содержит встроенного CSS и JS, однако расметка шаблона формы представллена в трех вариантах: bootstrap2 (default), bootstrap3, uikit2.
+You can also specify a title for the message telegram, if the header is not specified, the default string of the form "Message from the website {url}".
 
-Сообщение об успешной отправке поста либо ошибке выводится посредством стандартного механизма системный сообщений Joomla.
+The module does not contain inline CSS and JS, but razmetka form template predstavlena in three versions: bootstrap2 (default), bootstrap3, uikit2.
 
-**ВНИМАНИЕ!** Должен быть отключен `open_basedir`, т.к. с ним не работает используемый в модуле curl.
+Message about successful sending of post or the error is displayed via the standard mechanism of system messages Joomla.
+
+**ATTENTION!** Must be off `open_basedir` because it does not work used in the module curl.
 
 ---
 
-### Как создать бота
+### How to create a bot
 
--  находим в телеграме бота по имени @BotFather (или переходим по ссылке http://t.me/botfather);
--  вводим боту команду `/newbot` (либо выбираем ее из списка команд в приветственном сообщении);
--  последовательно вводим сначала наименование бота (любое, какое придумаете), затем системный никнейм, состоящий только из латинских символов, цифр и символа «_»;
--  вуаля! нам отвечают, что бот создан и предлагаю быструю ссылку на него, а также &ndash; внимание! &ndash; токен безопасности, эдакий универсальный ключ от свежесозданного бота;
--  открываем в телеграме свежесозданный бот и вводим команду `/start`, тем самым запустив работу бота (это важно!).
+- we find in the telegram bot named @BotFather (or follow the link http://t.me/botfather);
+- enter the bot the command `/newbot` (or select it from the list of commands in a welcome message);
+- consistently enter first name of the bot (any one will come up), then the system nickname, consisting of only Latin characters, digits and "_"symbol;
+voila! we say that the bot created and offer a quick link to it as well &ndash; caution! - a security token, a kind of universal key to the created bot;
+- open the newly created telegram bot and enter the command `/start`, thereby running the bot (this is important!).
 
-В параметрах установленного на сайт модуля «Telegram callback» вводим полученный при создании бота токен, затем жмем кнопку «Получить ID чата» &ndash; соответствующее поле должно заполнится. Если свежесозданный бот не был запущен командой `/start`, то ничего не произойдет. ID чата нельзя получить, если бот получал сообщения из других источников, помимо собственно чата в телеграме.
+In the options installed on site module "Telegram callback" input received when creating a bot token, then click the button "Get ID" chat &ndash; the appropriate box should be filled. If newly created bot was not running the command `/start`, nothing happens. ID chat cannot be obtained if the bot received reports from other sources, in addition to chat in telegram.
