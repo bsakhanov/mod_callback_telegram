@@ -4,7 +4,7 @@
 		<name>Telegram Callback</name>
 		<element>mod_telegram_callback</element>
 		<type>module</type>
-		<version>1.0.2</version>
+		<version>1.0.3</version>
 		<infourl title="Telegram Callback">https://github.com/AlekVolsk/mod_telegram_callback/</infourl>
 		<downloads>
 			<downloadurl type="full" format="">https://github.com/AlekVolsk/mod_telegram_callback/archive/master.zip</downloadurl>
