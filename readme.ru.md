@@ -1,6 +1,6 @@
 # «Telegram Callback» Joomla module
 
-**v1.0.2**
+**v1.0.3**
 
 **Joomla 3.2 и выше**
 
