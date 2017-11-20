@@ -44,12 +44,24 @@ class ModTelegramCallbackHelper
 		unset($keys);
 		return $out;
 	}
+
+	protected function check_form()
+	{
+		return 
+			!empty($_POST) && 
+			( 
+				( $_SERVER['HTTP_REFERER'] == JUri::base() || $_SERVER['HTTP_REFERER'] == JUri::base() . 'index.php' ) && 
+				( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ? $_SERVER['HTTP_X_REQUESTED_WITH'] == XMLHttpRequest : true )
+			);
+	}
 	
 	public function getAjax()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		self::check_form() or jexit(JText::_('JINVALID_TOKEN'));
 		$uri = JFactory::getURI();
 		
+		$app = JFactory::getApplication();
 		$language = JFactory::getLanguage();
 		$language->load('mod_telegram_callback', JPATH_BASE, null, true);
 		
@@ -75,7 +87,6 @@ class ModTelegramCallbackHelper
 		$url = sprintf(self::$urlSend, $token, $chat_id, $msg);
 		$result = json_decode(self::file_get_contents_curl(sprintf(self::$urlSend, $token, $chat_id, $msg)), true);
 		
-		$app = JFactory::getApplication();
 		if ($result['ok'])
 		{
 			$app->enqueueMessage(JText::_('MOD_TELEGRAM_CALLBACK_SUBMIT_SUCCESSFULLY_MSG'));
