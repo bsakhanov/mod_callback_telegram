@@ -7,14 +7,10 @@
 	<authorUrl>https://alekvolsk.pw</authorUrl>
 	<copyright>© 2017 Aleksey A. Morozov. All right reserved.</copyright>
 	<license>GNU GPL v3 or later</license>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<creationDate>March 2017</creationDate>
 	<description><![CDATA[<h3>Telegram Callback</h3><p>The module displays on the website a feedback form that sends messages in telegram.<br><br></p>]]></description>
 	<scriptfile>script.php</scriptfile>
-	
-	<updateservers>
-		<server type="extension" priority="1" name="Telegram Callback">https://raw.githubusercontent.com/AlekVolsk/mod_telegram_callback/master/mod_telegram_callback_update.xml</server>
-	</updateservers>
 	
 	<files>
 		<filename module="mod_telegram_callback">mod_telegram_callback.php</filename>
