@@ -6,7 +6,7 @@ class ModTelegramCallbackHelper
 	static protected $urlUpd = 'https://api.telegram.org/bot%s/getUpdates';
 	static protected $urlSend = 'https://api.telegram.org/bot%s/sendMessage?chat_id=%s&parse_mode=Markdown&text=%s';
 	
-	protected function file_get_contents_curl($url)
+	static protected function file_get_contents_curl($url)
 	{
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -45,17 +45,17 @@ class ModTelegramCallbackHelper
 		return $out;
 	}
 
-	protected function check_form()
+	static protected function check_form()
 	{
 		return 
 			!empty($_POST) && 
 			( 
-				( $_SERVER['HTTP_REFERER'] == JUri::base() || $_SERVER['HTTP_REFERER'] == JUri::base() . 'index.php' ) && 
+				( $_SERVER['HTTP_REFERER'] == JUri::base() || $_SERVER['HTTP_REFERER'] == JUri::base() . 'index.php' || $_SERVER['HTTP_REFERER'] == JUri::current() ) && 
 				( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ? $_SERVER['HTTP_X_REQUESTED_WITH'] == XMLHttpRequest : true )
 			);
 	}
 	
-	public function getAjax()
+	static public function getAjax()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		self::check_form() or jexit(JText::_('JINVALID_TOKEN'));
