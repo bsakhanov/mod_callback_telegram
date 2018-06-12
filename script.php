@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die;
 
-class mod_telegram_callbackInstallerScript
+class mod_callback_telegramInstallerScript
 {
 
 	public function preflight($type, $parent)
@@ -9,8 +9,8 @@ class mod_telegram_callbackInstallerScript
 			$app = JFactory::getApplication();
 			
 			$jversion = new JVersion();
-			if (!$jversion->isCompatible('3.2')) {
-				$app->enqueueMessage('Please upgrade to at least Joomla! 3.2 before continuing!', 'error');
+			if (!$jversion->isCompatible('3.6')) {
+				$app->enqueueMessage('Please upgrade to at least Joomla! 3.6 before continuing!', 'error');
 				return false;
 			}
 		}

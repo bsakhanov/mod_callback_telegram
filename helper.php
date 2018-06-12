@@ -1,6 +1,11 @@
 <?php defined('_JEXEC') or die;
+/*
+ * @package     mod_callback_telegram
+ * @copyright   Copyright (C) 2018 Aleksey A. Morozov (AlekVolsk). All rights reserved.
+ * @license     GNU General Public License version 3 or later; see http://www.gnu.org/licenses/gpl-3.0.txt
+ */
 
-class ModTelegramCallbackHelper
+class ModCallbackTelegramHelper
 {
 	
 	static protected $urlUpd = 'https://api.telegram.org/bot%s/getUpdates';
@@ -8,91 +13,160 @@ class ModTelegramCallbackHelper
 	
 	static protected function file_get_contents_curl($url)
 	{
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		$data = curl_exec($ch);
-		curl_close($ch);
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_HEADER, 0);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+		$data = curl_exec($curl);
+		curl_close($curl);
 		return $data;
 	}
 	
 	static public function getCI($token)
 	{
-		$ci = self::file_get_contents_curl(sprintf(self::$urlUpd, $token));
-		$ci = json_decode($ci, true);
-		$ci = $ci['result']['0']['message']['chat']['id'];
-		return $ci;
+		$data = self::file_get_contents_curl(sprintf(self::$urlUpd, $token));
+		$data = json_decode($data, true);
+		return $data['result']['0']['message']['chat']['id'];
 	}
 	
-	static public function remake_array($in)
+	static public function getFields($params)
 	{
-		$out = array();
-		$keys = array_keys($in);
-		$c = count($in[$keys[0]]);
-		for ($i = 0; $i < $c; $i++)
+		$items = (array)$params->get('items');
+		foreach ($items as $key => $item)
 		{
-			$a = array();
-			foreach ($keys as $key)
-			{
-				$a[$key] = $in[$key][$i];
-			}
-			$out[] = $a;
-			unset($a);
+			$items[$key]->fname = JFilterOutput::stringURLSafe($item->fname);
 		}
-		unset($keys);
-		return $out;
+		return $items;
 	}
 
-	static protected function check_form()
+	static protected function checkForm()
 	{
+		$rsl = explode(':', filter_input(INPUT_POST, 'rsl', FILTER_SANITIZE_STRING));
+		$base = JUri::base();
+		$current = JUri::current();
 		return 
 			!empty($_POST) && 
 			( 
-				( $_SERVER['HTTP_REFERER'] == JUri::base() || $_SERVER['HTTP_REFERER'] == JUri::base() . 'index.php' || $_SERVER['HTTP_REFERER'] == JUri::current() ) && 
-				( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ? $_SERVER['HTTP_X_REQUESTED_WITH'] == XMLHttpRequest : true )
+				( $_SERVER['HTTP_REFERER'] == $base || $_SERVER['HTTP_REFERER'] == $base . 'index.php' || $_SERVER['HTTP_REFERER'] == $current ) && 
+				( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ? $_SERVER['HTTP_X_REQUESTED_WITH'] == XMLHttpRequest : true ) &&
+				( count($rsl) === 2 && (int)$rsl[0] > 0 && (int)$rsl[1] > 0 )
 			);
 	}
 	
+	static protected function getLayoutPath($extension, $layout = 'default')
+	{
+		$template = \JFactory::getApplication()->getTemplate();
+		$defaultLayout = $layout;
+
+		if (strpos($layout, ':') !== false)
+		{
+			$temp = explode(':', $layout);
+			$template = $temp[0] === '_' ? $template : $temp[0];
+			$layout = $temp[1];
+			$defaultLayout = $temp[1] ?: 'default';
+		}
+
+		$tPath = JPATH_THEMES . '/' . $template . '/html/layouts/' . $extension . '/' . $layout . '.php';
+		$bPath = JPATH_BASE . '/modules/' . $extension . '/layouts/' . $defaultLayout . '.php';
+		$dPath = JPATH_BASE . '/modules/' . $extension . '/layouts/default.php';
+
+		if (file_exists($tPath))
+		{
+			return $tPath;
+		}
+
+		if (file_exists($bPath))
+		{
+			return $bPath;
+		}
+
+		return $dPath;
+	}
+
 	static public function getAjax()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-		self::check_form() or jexit(JText::_('JINVALID_TOKEN'));
 		$uri = JFactory::getURI();
+		$extension = 'mod_callback_telegram';
+		
+		JLog::addLogger( ['text_file' => $extension . '.php', 'text_entry_format' => '{DATETIME}	{PRIORITY}	{MESSAGE}'], JLog::ALL );
+
+		if (!JSession::checkToken()) 
+		{
+			$data = [
+				'referer' => $_SERVER['HTTP_REFERER'],
+				'result' => 'Invalid token'
+			];
+			JLog::add(json_encode($data), JLog::ERROR);
+			jexit(JText::_('JINVALID_TOKEN'));
+		}
+
+		if (!self::checkForm())
+		{
+			$data = [
+				'referer' => $_SERVER['HTTP_REFERER'],
+				'result' => 'Invalid checkform'
+			];
+			JLog::add(json_encode($data), JLog::ERROR);
+			jexit(JText::_('JINVALID_TOKEN'));
+		}
 		
 		$app = JFactory::getApplication();
 		$language = JFactory::getLanguage();
-		$language->load('mod_telegram_callback', JPATH_BASE, null, true);
+		$language->load($extension, JPATH_BASE, null, true);
 		
-		$module = JModuleHelper::getModule('mod_telegram_callback');
+		$module = JModuleHelper::getModule($extension);
 		$params = new JRegistry();
 		$params->loadString($module->params);
-		$fields = self::remake_array(json_decode($params->get('frontlist'), true));
-		$tgmtitle = $params->get('tgmtitle', '');
+		$fields = self::getFields($params);
 		$token = $params->get('token', '');
-		$chat_id = $params->get('ci', '');
+		$chatId = $params->get('getci', '');
 		
-		$msg = $tgmtitle ? '*' . $tgmtitle . '*%0A%0A' : '*' . JText::sprintf('MOD_TELEGRAM_CALLBACK_PRM_TGMTITLE_DEFAULT', JUri::base()) . '*%0A%0A';
+		$data = [
+			'title' => trim($params->get('tgmtitle', JText::sprintf('MOD_CALLBACK_TELEGRAM_PRM_TGMTITLE_DEFAULT', JUri::base()))),
+			'prependText' => trim($params->get('premsg', '')),
+			'appendText' => trim($params->get('postmsg', '')),
+			'items' => [],
+		];
+		
 		$c = count($fields);
-		
 		for($i = 0; $i < $c; $i++)
 		{
-			$val = trim(filter_input(INPUT_POST, $fields[$i]['fname'], FILTER_SANITIZE_STRING));
-			if ($fields[$i]['ftype'] == 'checkbox')
-					$val = $val ? JText::_('JYES') : JText::_('JNO');
-			$msg .= '*' . $fields[$i]['ftitle'] . '*:' . (($i+1)<$c ? ' ' . $val . '%0A' : '%0A' . urlencode($val));
+			$val = trim(filter_input(INPUT_POST, $fields['items' . $i]->fname, FILTER_SANITIZE_STRING));
+			if ($fields['items' . $i]->ftype == 'checkbox')
+			{
+				$val = $val ? JText::_('JYES') : JText::_('JNO');
+			}
+			$item = new StdClass();
+			$item->name = $fields['items' . $i]->ftitle;
+			$item->value = $val;
+			$data['items'][] = $item;
 		}
+		unset($item);
 		
-		$url = sprintf(self::$urlSend, $token, $chat_id, $msg);
-		$result = json_decode(self::file_get_contents_curl(sprintf(self::$urlSend, $token, $chat_id, $msg)), true);
+		$layout = str_replace('\\', '/', self::getLayoutPath($extension, $params->get('msgtemplate')));
+		ob_start();
+		include $layout;
+		$out = ob_get_clean();
+
+		$result = json_decode(self::file_get_contents_curl(sprintf(self::$urlSend, $token, $chatId, $out)), true);
 		
 		if ($result['ok'])
 		{
-			$app->enqueueMessage(JText::_('MOD_TELEGRAM_CALLBACK_SUBMIT_SUCCESSFULLY_MSG'));
-		} else {
-			$app->enqueueMessage(JText::_('MOD_TELEGRAM_CALLBACK_SUBMIT_FAILED_MSG'), 'error');
+			$app->enqueueMessage(JText::_('MOD_CALLBACK_TELEGRAM_SUBMIT_SUCCESSFULLY_MSG'));
 		}
+		else
+		{
+			$app->enqueueMessage(JText::_('MOD_CALLBACK_TELEGRAM_SUBMIT_FAILED_MSG'), 'error');
+		}
+		
+		$data['referer'] = $_SERVER['HTTP_REFERER'];
+		$data['out'] = $out;
+		$data['result'] = $result;
+		unset($data['prependText'], $data['appendText']);
+		
+		JLog::add(json_encode($data), $result['ok'] ? JLog::INFO : JLog::ERROR);
+
 		$app->redirect($uri);
 	}
 }
