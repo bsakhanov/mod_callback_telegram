@@ -16,6 +16,8 @@ The default field list is empty, because the need to fill it, then save. Support
 
 You can also specify a title for the message telegram, if the header is not specified, the default string of the form "Message from the website {url}".
 
+The module supports overriding the templates of the messages sent to telegram. Templates are located in the /layouts folder.
+
 The module does not contain inline CSS and JS, but razmetka form template predstavlena in three versions: bootstrap2 (default), bootstrap3/4, uikit2, uikit3.
 
 Message about successful sending of post or the error is displayed via the standard mechanism of system messages Joomla.
