@@ -1,8 +1,8 @@
 # «Telegram Callback» Joomla module
 
-**v1.0.4**
+**v1.1.0**
 
-**Joomla 3.2 or later**
+**Joomla 3.6 or later**
 
 A feedback module sending the message in the telegram, the modern service of instant messages.
 
