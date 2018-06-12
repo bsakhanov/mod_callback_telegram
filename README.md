@@ -12,7 +12,7 @@ The bot is created with another system of the bot.
 
 ### Description
 
-The default field list is empty, because the need to fill it, then save. Supported field types: text, textarea, email, select, checkbox, radio. Each field must have a name (for form creation) and name (the identification field in the message in the telegram).
+The default field list is empty, because the need to fill it, then save. Supported field types: text, email, url, tel, password, textarea, select, checkbox, radio. Each field must have a name (for form creation) and name (the identification field in the message in the telegram).
 
 You can also specify a title for the message telegram, if the header is not specified, the default string of the form "Message from the website {url}".
 
