@@ -1,7 +1,6 @@
 # «Telegram Callback» Joomla module
 
-**v1.1.0
-ATTENTION! current version is not compatible with previous!**
+**v1.1.0\nATTENTION! current version is not compatible with previous!**
 
 **Joomla 3.6 or later**
 
