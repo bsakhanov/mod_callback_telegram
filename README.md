@@ -4,6 +4,8 @@
 
 **Joomla 3.6 or later**
 
+**PHP 5.6 or later**
+
 A feedback module sending the message in the telegram, the modern service of instant messages.
 
 A message from the form module goes into pre-created bot.
