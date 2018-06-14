@@ -91,7 +91,7 @@
 		</div>
 		
 		<input type="hidden" name="option" value="com_ajax" />
-		<input type="hidden" name="module" value="telegram_callback" />
+		<input type="hidden" name="module" value="callback_telegram" />
 		<input type="hidden" name="format" value="raw" />
 		<?php echo JHtml::_('form.token'); ?>
 
