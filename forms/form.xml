@@ -2,15 +2,15 @@
 <form>
 	<field name="fname" type="text" label="MOD_CALLBACK_TELEGRAM_PRM_F_NAME_LABEL" description="MOD_CALLBACK_TELEGRAM_PRM_F_NAME_DESC" required="required" />
 	<field name="ftype" type="list" label="MOD_CALLBACK_TELEGRAM_PRM_F_TYPE_LABEL" required="required" >
-		<option value="text">MOD_CALLBACK_TELEGRAM_PRM_F_TYPE_TEXT_LABEL</option>
-		<option value="email">MOD_CALLBACK_TELEGRAM_PRM_F_TYPE_EMAIL_LABEL</option>
-		<option value="url">MOD_CALLBACK_TELEGRAM_PRM_F_TYPE_URL_LABEL</option>
-		<option value="tel">MOD_CALLBACK_TELEGRAM_PRM_F_TYPE_TEL_LABEL</option>
-		<option value="password">MOD_CALLBACK_TELEGRAM_PRM_F_TYPE_PASSWORD_LABEL</option>
-		<option value="textarea">MOD_CALLBACK_TELEGRAM_PRM_F_TYPE_TEXTAREA_LABEL</option>
-		<option value="select">MOD_CALLBACK_TELEGRAM_PRM_F_TYPE_SELECT_LABEL</option>
-		<option value="checkbox">MOD_CALLBACK_TELEGRAM_PRM_F_TYPE_CHECKBOX_LABEL</option>
-		<option value="radio">MOD_CALLBACK_TELEGRAM_PRM_F_TYPE_RADIO_LABEL</option>
+		<option value="text">text</option>
+		<option value="email">email</option>
+		<option value="url">url</option>
+		<option value="tel">tel</option>
+		<option value="password">password</option>
+		<option value="textarea">textarea</option>
+		<option value="select">select</option>
+		<option value="checkbox">checkbox</option>
+		<option value="radio">radio</option>
 	</field>
 	<field name="ftitle" type="text" label="MOD_CALLBACK_TELEGRAM_PRM_F_TITLE_LABEL" description="MOD_CALLBACK_TELEGRAM_PRM_F_TITLE_DESC" required="required" class="input-xxlarge" />
 	<field name="flist" type="textarea" label="MOD_CALLBACK_TELEGRAM_PRM_F_LIST_LABEL" description="MOD_CALLBACK_TELEGRAM_PRM_F_LIST_DESC" class="input-xxlarge" showon="ftype:select[OR]ftype:radio" />
