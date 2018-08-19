@@ -2,6 +2,8 @@
 
 **v1.1.0<br>ATTENTION! current version is not compatible with previous!**
 
+![Github Releases](https://img.shields.io/github/downloads/AlekVolsk/mod_callback_telegram/latest/total.svg)
+
 **Joomla 3.6 or later**
 
 **PHP 5.6 or later**
