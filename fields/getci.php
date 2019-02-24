@@ -1,9 +1,11 @@
 <?php defined('JPATH_PLATFORM') or die;
 /*
  * @package     mod_callback_telegram
- * @copyright   Copyright (C) 2018 Aleksey A. Morozov (AlekVolsk). All rights reserved.
+ * @copyright   Copyright (C) 2019 Aleksey A. Morozov (AlekVolsk). All rights reserved.
  * @license     GNU General Public License version 3 or later; see http://www.gnu.org/licenses/gpl-3.0.txt
  */
+
+use Joomla\CMS\Language\Text;
 
 class JFormFieldGetci extends JFormFieldText
 {
@@ -19,12 +21,12 @@ class JFormFieldGetci extends JFormFieldText
 		
 		$layout = '<div class="input-append">' .
 			$this->getRenderer('joomla.form.field.text')->render($this->getLayoutData()) . 
-			'<button id="' . $this->name . '-getci" type="button" class="btn btn-success" onclick="getChatId()">' . JText::_($label) . '</button></div>
+			'<button id="' . $this->name . '-getci" type="button" class="btn btn-success" onclick="getChatId()">' . Text::_($label) . '</button></div>
 			<script type="text/javascript">
 				function getChatId() {
 					var token = jQuery("#jform_params_token").val();
 					if (token.length == 0) {
-						//return;
+						return;
 					}
 					jQuery.ajax({
 						type: "POST",
